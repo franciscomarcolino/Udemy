@@ -8,11 +8,12 @@ FBullCowGame::FBullCowGame()
 void FBullCowGame::Reset()
 {
 	//Variables declaration
-	constexpr int32 MAX_TRIES = 8;
-	const FString HIDDEN_WORD = "planet";
+	constexpr int32 MAX_TRIES = 5;
+	const FString HIDDEN_WORD = "planetarium";
+	constexpr int32 INITIAL_CURRENT_TRY = 1;
 
 	//Variables initiation
-	MyCurrentTry = 1;
+	MyCurrentTry = INITIAL_CURRENT_TRY;
 	MyMaxTries = MAX_TRIES;
 	MyHiddenWord = HIDDEN_WORD;
 	
@@ -35,19 +36,46 @@ bool FBullCowGame::IsGameWon() const
 	return false;
 }
 
-bool FBullCowGame::CheckGuessValidity(FString) const
+EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 {
-	return false;
+	if (false)
+	{
+		//Not an isogram
+		return EGuessStatus::Not_Isogram;
+	}
+	else if (false)
+	{
+		//Not lowercase
+		return EGuessStatus::Not_lowercase;
+	}
+	else if (GetHiddenWordLenght() != Guess.length())
+	{
+		//Wrong lenght
+		return EGuessStatus::Wrong_Lenght;
+	}
+	else
+	{
+		//Ok
+		return EGuessStatus::Ok;
+	}
+
 }
+
+int32 FBullCowGame::GetHiddenWordLenght() const
+{
+	return MyHiddenWord.length();
+}
+
 
 FBullCowCount FBullCowGame::SubmitGuess(FString Guess)
 {
 	MyCurrentTry++;
 
 	//Variables declaration
+	int32 HiddenWordLength;
 	FBullCowCount BullCowCount;
 	
-	int32 HiddenWordLength = MyHiddenWord.length();
+	HiddenWordLength = GetHiddenWordLenght();
 	int32 GuessLenght = Guess.length();
 	   
 	for (int HiddenIteration = 0; HiddenIteration < HiddenWordLength; HiddenIteration++)
