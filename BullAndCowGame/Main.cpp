@@ -10,6 +10,7 @@ void PrintIntro();
 void PlayGame();
 bool AskWantsToPlayAgain();
 FText GetValidGuess();
+void PrintGameSummary();
 
 //New Game instance
 FBullCowGame BCGame;
@@ -61,21 +62,9 @@ void PlayGame()
 			std::cout << std::endl << "Bulls: " << BullCowCount.Bulls << ". " << "Cows: " << BullCowCount.Cows << ".";		
 		}
 
-		if (!BCGame.IsGameWon())
-		{
-			std::cout << std::endl << std::endl << "You lost the game. Try again!" << std::endl;
-		}
-		else if (BCGame.IsGameWon())
-		{
-			std::cout << std::endl << std::endl << "Congrats!!! You won the game!" << std::endl;
-		}
-		else
-		{
-			std::cout << std::endl << std::endl << "Unknown behavior." << std::endl;
-		}
+		PrintGameSummary();
 
-	//}
-	
+	//}	
 	return;
 }
 
@@ -125,9 +114,30 @@ bool AskWantsToPlayAgain()
 	FText PlayerAnswerKeepPlaying = "";
 
 	//Logic
-	std::cout << std::endl << "Do you wanna keep playing (y/n)?" << std::endl;	
+	std::cout << std::endl << "Do you wanna keep playing with the same hidden word (y/n)?" << std::endl;	
 	std::getline(std::cin, PlayerAnswerKeepPlaying);
 	
 	//End of the function
 	return (PlayerAnswerKeepPlaying[0] == 'y') || (PlayerAnswerKeepPlaying[0] == 'Y');
+}
+
+
+
+
+void PrintGameSummary()
+{
+	system("cls");
+
+	if ( !BCGame.IsGameWon() )
+	{
+		std::cout << std::endl << std::endl << "You lost the game. Try again!" << std::endl;		
+	}
+	else if ( BCGame.IsGameWon() )
+	{
+		std::cout << std::endl << std::endl << "Congrats!!! You won the game!" << std::endl;		
+	}
+	else
+	{
+		std::cout << std::endl << std::endl << "Unknown behavior." << std::endl;
+	}
 }
