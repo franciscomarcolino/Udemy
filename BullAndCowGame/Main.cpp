@@ -20,8 +20,12 @@ int main()
 	
 
 	//Logic	
-	PrintIntro();
-	PlayGame();
+	do
+	{
+		PrintIntro();
+		PlayGame();
+	} 
+	while (AskWantsToPlayAgain());
 
 	//End of the function
 	return 0;
@@ -31,7 +35,7 @@ void PrintIntro()
 {
 	//Logic
 	system("cls");
-	std::cout << std::endl << "Welcome to Bulls and Cows" << std::endl;
+	std::cout << std::endl << std::endl << "Welcome to Bulls and Cows" << std::endl;
 	std::cout << "Can you guess the " << BCGame.GetHiddenWordLenght() << " letter isogram i am thinking of?" << std::endl;
 	
 	//End of the function
@@ -44,16 +48,33 @@ void PlayGame()
 	FText PlayerGuess = "";	
 	FBullCowCount BullCowCount;
 	EGuessStatus GuessStatus;
-
+	
 	//Logic	
 	BCGame.Reset();
 
-	for (int MAX_TRY_ITERATION = 1; MAX_TRY_ITERATION <= BCGame.GetMaxTries(); MAX_TRY_ITERATION++)
-	{
-		PlayerGuess = GetValidGuess();		
-		BullCowCount = BCGame.SubmitGuess(PlayerGuess);
-		std::cout << std::endl << "Bulls: " << BullCowCount.Bulls << ". " << "Cows: " << BullCowCount.Cows << ".";
-	}
+	//for (int MAX_TRY_ITERATION = 1; MAX_TRY_ITERATION <= BCGame.GetMaxTries(); MAX_TRY_ITERATION++)
+	//{
+		while ( ! BCGame.IsGameWon() && BCGame.GetCurrentTry() <= BCGame.GetMaxTries() )
+		{
+			PlayerGuess = GetValidGuess();		
+			BullCowCount = BCGame.SubmitValidGuess(PlayerGuess);
+			std::cout << std::endl << "Bulls: " << BullCowCount.Bulls << ". " << "Cows: " << BullCowCount.Cows << ".";		
+		}
+
+		if (!BCGame.IsGameWon())
+		{
+			std::cout << std::endl << std::endl << "You lost the game. Try again!" << std::endl;
+		}
+		else if (BCGame.IsGameWon())
+		{
+			std::cout << std::endl << std::endl << "Congrats!!! You won the game!" << std::endl;
+		}
+		else
+		{
+			std::cout << std::endl << std::endl << "Unknown behavior." << std::endl;
+		}
+
+	//}
 	
 	return;
 }
@@ -81,7 +102,7 @@ FText GetValidGuess()
 			std::cout << std::endl << "Error: please enter an isogram.";
 			break;
 		case EGuessStatus::Wrong_Lenght:
-			std::cout << std::endl << "Error: please enter a " << BCGame.GetHiddenWordLenght() << " word." << std::endl;
+			std::cout << std::endl << "Error: please enter a " << BCGame.GetHiddenWordLenght() << " letter word." << std::endl;
 			break;
 		case EGuessStatus::Not_lowercase:
 			std::cout << std::endl << "Error: please enter the guess in lowercase.";
