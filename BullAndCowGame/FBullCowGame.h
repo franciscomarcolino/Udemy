@@ -1,6 +1,8 @@
-#pragma once
+#pragma once //make sure it import libraries only once
+
 #include <string>
 
+// To make Unreal friendly sintax
 using FString = std::string;
 using int32 = int;
 
@@ -39,4 +41,6 @@ private:
 	int32 MyMaxTries;
 	FString MyHiddenWord;
 	bool bGameIsWon;
+	bool IsIsogram(FString) const;
+	bool IsLowerCase(FString) const;
 };

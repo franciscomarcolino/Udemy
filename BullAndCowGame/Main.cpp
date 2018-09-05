@@ -1,11 +1,14 @@
+#pragma once //make sure it import libraries only once
+
 #include <iostream>
 #include <string>
 #include "FBullCowGame.h"
 
+// To make Unreal friendly sintax
 using FText = std::string;
 using int32 = int;
 
-//Functions declarations
+//Functions declarations that are not in the other files
 void PrintIntro();
 void PlayGame();
 bool AskWantsToPlayAgain();
@@ -19,7 +22,6 @@ int main()
 {
 	//Variables
 	
-
 	//Logic	
 	do
 	{
@@ -53,8 +55,6 @@ void PlayGame()
 	//Logic	
 	BCGame.Reset();
 
-	//for (int MAX_TRY_ITERATION = 1; MAX_TRY_ITERATION <= BCGame.GetMaxTries(); MAX_TRY_ITERATION++)
-	//{
 		while ( ! BCGame.IsGameWon() && BCGame.GetCurrentTry() <= BCGame.GetMaxTries() )
 		{
 			PlayerGuess = GetValidGuess();		
@@ -64,7 +64,6 @@ void PlayGame()
 
 		PrintGameSummary();
 
-	//}	
 	return;
 }
 
@@ -78,14 +77,14 @@ FText GetValidGuess()
 	//Logic	
 	do 
 	{
-		std::cout << std::endl << std::endl << "Try number " << CurrentTry << " --> Type your guess: ";
+		std::cout << std::endl << std::endl << "Try number " << CurrentTry << " of " << BCGame.GetMaxTries() << " --> "  << ". Type your guess: ";
 		std::getline(std::cin, PlayerGuess);
 		GuessStatus = BCGame.CheckGuessValidity(PlayerGuess);
 
 		switch (GuessStatus)
 		{
 		case EGuessStatus::Ok:
-			std::cout << std::endl << "This is a valid guess.";
+			std::cout  << "This is a valid guess.";
 			break;
 		case EGuessStatus::Not_Isogram:
 			std::cout << std::endl << "Error: please enter an isogram.";
@@ -106,8 +105,6 @@ FText GetValidGuess()
 	return PlayerGuess;
 }
 
-
-
 bool AskWantsToPlayAgain()
 {
 	//Variables	
@@ -120,9 +117,6 @@ bool AskWantsToPlayAgain()
 	//End of the function
 	return (PlayerAnswerKeepPlaying[0] == 'y') || (PlayerAnswerKeepPlaying[0] == 'Y');
 }
-
-
-
 
 void PrintGameSummary()
 {
@@ -140,4 +134,7 @@ void PrintGameSummary()
 	{
 		std::cout << std::endl << std::endl << "Unknown behavior." << std::endl;
 	}
+	
+	//End of the function
+	return;
 }
